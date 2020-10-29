@@ -1,10 +1,10 @@
 # nodejs-restAPI-postgress-ts
 
-#1.Install dependencies
+#Install dependencies
 npm i
 
-#2. Transpile ts files
+#Transpile ts files
 npm run build
 
-#3. Run server
+#Run server
 npm run dev
