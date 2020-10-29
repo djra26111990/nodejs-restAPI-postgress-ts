@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 import { pool } from '../database';
 import { QueryResult } from 'pg';
+import bcryptjs from 'bcryptjs'
 
+const roundSalt = 10;
 
 //Se obtiene un listado de todos los usuarios registrados
 export const getUsers = async (req: Request, res: Response): Promise<Response> => {
@@ -25,11 +27,12 @@ export const getUserById = async (req: Request, res: Response): Promise<Response
 //Permite la creación de un usuario
 export const createUser = async (req: Request, res: Response) => {
     const { username, password, name, email } = req.body;
-    const response = await pool.query('INSERT INTO users (username, password, name, email) VALUES ($1, $2)', [username, password, name, email]);
+    const passwordHashed = await bcryptjs.hash(password, roundSalt);
+    const response = await pool.query('INSERT INTO users (username, password, name, email) VALUES ($1, $2, $3, $4)', [username, passwordHashed, name, email]);
     res.json({
         message: 'User Added successfully',
         body: {
-            user: { username, password, name, email }
+            user: { username, passwordHashed, name, email }
         }
     })
 };
@@ -38,15 +41,20 @@ export const createUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
     const id = parseInt(req.params.id);
     const { username, password, name, email } = req.body;
-
+    const passwordHashed = await bcryptjs.hash(password, roundSalt);
     const response = await pool.query('UPDATE users SET username = $1, password = $2, name = $3, email = $4 WHERE id = $5', [
         username, 
-        password, 
+        passwordHashed, 
         name, 
         email,
         id
     ]);
-    res.json('User Updated Successfully');
+    res.json({
+        message: 'User updated succesfully',
+        body: {
+            user: { username, passwordHashed, name, email }
+        }
+    });
 };
 
 //Elimina un usuario por su Id
