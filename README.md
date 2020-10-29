@@ -1,10 +1,17 @@
 # nodejs-restAPI-postgress-ts
 
-#Install dependencies
-npm i
+## Available Scripts
 
-#Transpile ts files
-npm run build
+In the project directory, you can run:
 
-#Run server
-npm run dev
+### `npm i`
+
+Install all project depencencies
+
+### `npm run build`
+
+Launches TSC compiler and create dist folder with all files transpiled to JS
+
+### `npm run dev`
+
+Launches server with nodemon and tsc watch mode
