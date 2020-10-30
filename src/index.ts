@@ -9,7 +9,7 @@ dotenv.config();
 const app: Application = express();
 
 //Se declara el puerto del server en una const
-const port = process.env.DB_PORT || 3000;
+const port = process.env.EXPRESS_PORT || 3000;
 
 // middlewares
 app.use(express.json());
